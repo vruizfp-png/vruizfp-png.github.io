@@ -1,0 +1,29 @@
+---
+// src/pages/blog/index.astro
+import Layout from '../../layouts/Layout.astro';
+import { getPosts } from '../../lib/wp';
+
+const posts = await getPosts();
+---
+
+<Layout title="Blog — Tueste Norte">
+  <main class="max-w-4xl mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-6 text-gray-900">Blog de Café</h1>
+    <div class="space-y-6">
+      {posts.map((post) => (
+        <article class="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+          <span class="text-sm text-gray-500 mb-1 block">{post.fecha}</span>
+          <h2 class="text-2xl font-bold mb-2">
+            <a href={`/blog/${post.slug}/`} class="text-amber-900 hover:underline">
+              {post.titulo}
+            </a>
+          </h2>
+          <div class="text-gray-700 mb-4" set:html={post.extractoHtml} />
+          <a href={`/blog/${post.slug}/`} class="text-amber-700 font-medium hover:underline inline-block">
+            Leer más &rarr;
+          </a>
+        </article>
+      ))}
+    </div>
+  </main>
+</Layout>

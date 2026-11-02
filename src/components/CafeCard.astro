@@ -1,0 +1,23 @@
+---
+// src/components/CafeCard.astro
+import type { Cafe } from '../lib/wp';
+
+interface Props {
+  cafe: Cafe;
+}
+
+const { cafe } = Astro.props;
+---
+
+<div class="border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow bg-white">
+  <a href={`/cafes/${cafe.slug}/`}>
+    {cafe.imagen && (
+      <img src={cafe.imagen} alt={cafe.imagenAlt} class="w-full h-48 object-cover" loading="lazy" />
+    )}
+    <div class="p-4">
+      <h2 class="text-xl font-bold text-gray-800 mb-2">{cafe.titulo}</h2>
+      <p class="text-sm text-gray-600 mb-2">{cafe.origen} — Tueste {cafe.nivelTueste}</p>
+      <p class="text-lg font-bold text-amber-900">{cafe.precio.toFixed(2)} €</p>
+    </div>
+  </a>
+</div>

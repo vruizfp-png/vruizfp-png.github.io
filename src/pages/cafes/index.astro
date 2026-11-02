@@ -1,0 +1,19 @@
+---
+// src/pages/cafes/index.astro
+import Layout from '../../layouts/Layout.astro';
+import CafeCard from '../../components/CafeCard.astro';
+import { getCafes } from '../../lib/wp';
+
+const cafes = await getCafes();
+---
+
+<Layout title="Nuestros cafés — Tueste Norte">
+  <main class="max-w-6xl mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-6 text-gray-900">Nuestros Cafés</h1>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {cafes.map((cafe) => (
+        <CafeCard cafe={cafe} />
+      ))}
+    </div>
+  </main>
+</Layout>

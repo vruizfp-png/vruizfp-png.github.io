@@ -1,0 +1,25 @@
+---
+// src/pages/ejercicios/inventario.astro
+const API = import.meta.env.WP_API_URL;
+
+// Pedimos a la API la lista de cafés con per_page=3 a propósito
+const res = await fetch(`${API}/wp/v2/cafes?per_page=3`);
+const totalCafes = Number(res.headers.get('X-WP-Total'));
+const totalPaginas = Number(res.headers.get('X-WP-TotalPages'));
+---
+
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Ejercicio 2 - Inventario</title>
+  </head>
+  <body class="p-8 font-sans max-w-2xl mx-auto">
+    <h1 class="text-2xl font-bold mb-4">Inventario de Cafés</h1>
+    
+    <div class="bg-blue-50 border border-blue-200 p-4 rounded-lg mb-6">
+      <p class="text-blue-900 font-medium">
+        Hay <strong>{totalCafes}</strong> cafés repartidos en <strong>{totalPaginas}</strong> páginas.
+      </p>
+    </div>
+  </body>
+</html>

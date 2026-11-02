@@ -1,0 +1,46 @@
+---
+// src/pages/cafes/[slug].astro
+import Layout from '../../layouts/Layout.astro';
+import { getCafes } from '../../lib/wp';
+import type { Cafe } from '../../lib/wp';
+
+export async function getStaticPaths() {
+  const cafes = await getCafes();
+  return cafes.map((cafe) => ({
+    params: { slug: cafe.slug },
+    props: { cafe },
+  }));
+}
+
+interface Props {
+  cafe: Cafe;
+}
+
+const { cafe } = Astro.props;
+---
+
+<Layout title={`${cafe.titulo} — Tueste Norte`}>
+  <main class="max-w-4xl mx-auto px-4 py-8">
+    <a href="/cafes/" class="text-amber-700 hover:underline mb-4 inline-block">&larr; Volver al catálogo</a>
+    
+    <article class="bg-white p-6 rounded-lg shadow-md">
+      {cafe.imagen && (
+        <img 
+          src={cafe.imagen} 
+          alt={cafe.imagenAlt} 
+          class="w-full h-80 object-cover rounded-md mb-6"
+        />
+      )}
+      <h1 class="text-3xl font-bold mb-4">{cafe.titulo}</h1>
+      
+      <div class="grid grid-cols-2 gap-4 mb-6 bg-amber-50 p-4 rounded-md">
+        <div><strong>Origen:</strong> {cafe.origen}</div>
+        <div><strong>Notas de cata:</strong> {cafe.notasCata}</div>
+        <div><strong>Nivel de tueste:</strong> {cafe.nivelTueste}</div>
+        <div><strong>Precio:</strong> {cafe.precio.toFixed(2)} € / 250g</div>
+      </div>
+
+      <div class="prose max-w-none text-gray-700" set:html={cafe.descripcionHtml} />
+    </article>
+  </main>
+</Layout>

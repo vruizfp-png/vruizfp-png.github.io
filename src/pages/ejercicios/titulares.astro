@@ -1,0 +1,33 @@
+---
+// src/pages/ejercicios/titulares.astro
+import { getPosts } from '../../lib/wp';
+
+const posts = await getPosts();
+
+// Explicación para el ejercicio 1:
+console.log(`[TERMINAL] Número de entradas recibidas desde WordPress: ${posts.length}`);
+/* 
+ * ¿Dónde aparece este log y por qué?
+ * Aparece en la TERMINAL de Visual Studio Code (donde corre 'npm run dev' o 'npm run build'), 
+ * NUNCA en la consola de herramientas de desarrollo del navegador del usuario.
+ * Esto sucede porque el frontmatter de Astro (el código entre ---) se ejecuta 
+ * exclusivamente en el servidor (fuera del navegador) durante el renderizado.
+ */
+---
+
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Ejercicio 1 - Titulares</title>
+  </head>
+  <body class="p-8 font-sans max-w-2xl mx-auto">
+    <h1 class="text-2xl font-bold mb-4">Titulares del Blog</h1>
+    <ul class="list-disc pl-5 space-y-2">
+      {posts.map((post) => (
+        <li>
+          <strong>{post.titulo}</strong> ({post.fecha})
+        </li>
+      ))}
+    </ul>
+  </body>
+</html>
